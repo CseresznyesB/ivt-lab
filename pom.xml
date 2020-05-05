@@ -7,6 +7,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  		<sonar.projectKey>CseresznyesB_ivt-lab</sonar.projectKey>
+  		<sonar.organization>cseresznyesb</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<dependencies>
@@ -37,7 +40,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>11</release>
+					<release>10</release>
 				</configuration>
 			</plugin>
 
@@ -45,6 +48,9 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.2</version>
+				<configuration>
+        			<testFailureIgnore>true</testFailureIgnore>
+    			</configuration>
 			</plugin>
 		</plugins>
 	</build>
