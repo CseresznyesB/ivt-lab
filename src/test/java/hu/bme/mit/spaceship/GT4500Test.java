@@ -62,6 +62,7 @@ public class GT4500Test {
     // Arrange
     when(mocksts.isEmpty()).thenReturn(true);
     when(mockpts.fire(1)).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(false);
     // Act
     ship.fireTorpedo(FiringMode.SINGLE);
     boolean result = ship.fireTorpedo(FiringMode.SINGLE);
@@ -123,4 +124,87 @@ public class GT4500Test {
      verify(mockpts, times(1)).fire(1);
   }
 
+  /*@Test
+  public void fullCoverageTest(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.fire(1)).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(true);
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(false, result);
+  }*/
+
+  @Test
+  public void fullCoverageTest1(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.fire(1)).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(false);
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.fire(1)).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(true);
+
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(false, result);
+    //verify(mockpts, times(1)).fire(1);
+  }
+
+  @Test
+  public void fullCoverageTest2(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(false);
+    when(mockpts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    // Assert
+    assertEquals(false, result);
+    verify(mockpts, times(0)).fire(1);
+    verify(mocksts, times(0)).fire(1);
+  }
+
+  @Test
+  public void fullCoverageTest3(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(false);
+    when(mockpts.isEmpty()).thenReturn(true);
+    when(mocksts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    // Assert
+    assertEquals(false, result);
+    verify(mockpts, times(0)).fire(1);
+    verify(mocksts, times(0)).fire(1);
+  }
+
+  @Test
+  public void fullCoverageTest4(){
+    // Arrange
+    when(mockpts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    // Assert
+    assertEquals(false, result);
+    verify(mockpts, times(1)).fire(1);
+    verify(mocksts, times(1)).fire(1);
+  }
+
+  @Test
+  public void fullCoverageTest5(){
+    // Arrange
+    when(mocksts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    // Assert
+    assertEquals(false, result);
+    verify(mockpts, times(1)).fire(1);
+    verify(mocksts, times(0)).fire(1);
+  }
 }
