@@ -10,31 +10,40 @@ public class GT4500Test {
 
   private GT4500 ship;
 
+  private TorpedoStore mockpts;
+  private TorpedoStore mocksts;
+
   @BeforeEach
   public void init(){
-    this.ship = new GT4500();
+    //this.ship = new GT4500();
+
+    mockpts=mock(TorpedoStore.class);
+    mocksts=mock(TorpedoStore.class);
+
+    this.ship=new GT4500(mockpts, mocksts);
   }
 
   @Test
   public void fireTorpedo_Single_Success(){
     // Arrange
-
+    when(mockpts.fire(1)).thenReturn(true);
     // Act
-    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    assertEquals(true, result);
+    verify(mockpts, times(1)).fire(1);
   }
 
   @Test
   public void fireTorpedo_All_Success(){
     // Arrange
-
+    when(mockpts.fire(1)).thenReturn(true);
+    when(mocksts.fire(1)).thenReturn(true);
     // Act
-    boolean result = ship.fireTorpedo(FiringMode.ALL);
-
+    ship.fireTorpedo(FiringMode.ALL);
     // Assert
-    assertEquals(true, result);
+    verify(mockpts, times(1)).fire(1);
+    verify(mocksts, times(1)).fire(1);
   }
 
 }
