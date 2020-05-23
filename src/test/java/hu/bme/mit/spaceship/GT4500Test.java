@@ -29,7 +29,6 @@ public class GT4500Test {
     when(mockpts.fire(1)).thenReturn(true);
     // Act
     ship.fireTorpedo(FiringMode.SINGLE);
-
     // Assert
     verify(mockpts, times(1)).fire(1);
   }
@@ -44,6 +43,84 @@ public class GT4500Test {
     // Assert
     verify(mockpts, times(1)).fire(1);
     verify(mocksts, times(1)).fire(1);
+  }
+
+  @Test
+  public void fireSecondaryFirst(){
+    // Arrange
+    when(mocksts.fire(1)).thenReturn(true);
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(true, result);
+    verify(mocksts, times(1)).fire(1);
+  }
+
+  @Test
+  public void secondaryEmpty(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.fire(1)).thenReturn(true);
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(true, result);
+    verify(mockpts, times(2)).fire(1);
+  }
+
+  @Test
+  public void bothEmpty(){
+    // Arrange
+    when(mocksts.isEmpty()).thenReturn(true);
+    when(mockpts.isEmpty()).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(false, result);
+    verify(mockpts, times(0)).fire(1);
+    verify(mocksts, times(0)).fire(1);
+  }
+
+  @Test
+  public void primaryEmpty(){
+    // Arrange
+    when(mockpts.isEmpty()).thenReturn(true);
+    when(mocksts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+    // Assert
+    assertEquals(true, result);
+    verify(mocksts, times(1)).fire(1);
+  }
+
+  @Test
+  public void fireBoth(){
+    // Arrange
+    when(mockpts.fire(1)).thenReturn(true);
+    when(mocksts.fire(1)).thenReturn(true);
+    // Act
+    boolean result = ship.fireTorpedo(FiringMode.ALL);
+    // Assert
+    assertEquals(true, result);
+    verify(mocksts, times(1)).fire(1);
+    verify(mockpts, times(1)).fire(1);
+  }
+
+  // Based on code only: firingMode:SINGLE, wasPrimaryFiredLast:false,
+  // primaryTorpedoStore.isEmpty():false
+
+  @Test
+  public void codeBaseTest(){
+     // Arrange
+     when(mockpts.fire(1)).thenReturn(true);
+     when(mockpts.isEmpty()).thenReturn(false);
+     // Act
+     boolean result = ship.fireTorpedo(FiringMode.SINGLE);
+     // Assert
+     assertEquals(true, result);
+     verify(mockpts, times(1)).fire(1);
   }
 
 }
